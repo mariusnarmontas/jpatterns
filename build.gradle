@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'info.narmontas'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.2'
+    testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.2'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+}
+
+test {
+    useJUnitPlatform()
+}
