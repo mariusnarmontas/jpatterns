@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 /**
  * Builder Pattern processor.
  *
- * Creates simple Builder for POJO classes.
+ * Creates simple Builder for POJO classes. elements from parent class will be used as well.
  */
 @SupportedAnnotationTypes({"info.narmontas.patterns.annotation.BuilderPattern"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -102,7 +102,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
         HashMap<String, String> merged = merge();
         setSetters(merged);
         generateBuildMethod(merged);
-        generateBuilderMethod();
+        generateCreateMethod();
         generateFile();
     }
 
@@ -313,8 +313,8 @@ public class BuilderPatternProcessor extends AbstractProcessor {
         cg.addMethod(build);
     }
 
-    private void generateBuilderMethod() {
-        Method builder = new Method("builder")
+    private void generateCreateMethod() {
+        Method builder = new Method("create")
                 .setEncapsulation(Encapsulation.PUBLIC)
                 .setStatic()
                 .setReturnType(fullName)

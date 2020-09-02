@@ -3,6 +3,18 @@ package info.narmontas.patterns.processor.utils;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+/**
+ * <p>Code generator class provides tools for Class content generation.
+ * Result of the tools is String object.
+ * Tools are organized in accordance with builder pattern.</p>
+ * <p>Ex., (CodeGenerator instance)<br>
+ *          .definePackage("package.canonical.name")<br>
+ *          .addImport("java.util.List")<br>
+ *          .defineClass(Encapsulation.PUBLIC, "ClassName")<br>
+ *          .addField(Encapsulation.PRIVATE, "fieldName")<br>
+ *          .build();</p>
+ * <p>build() method returns String result with formatted class content.</p>
+ */
 public class CodeGenerator {
     public static final String LINE_BREAK = System.getProperty("line.separator");
     public static final String SPACE = " ";
@@ -33,6 +45,11 @@ public class CodeGenerator {
     private final StringBuilder builder = new StringBuilder();
     private HashMap<String, String> fields = new LinkedHashMap<>();
 
+    /**
+     * Class package should be provided as String packageName parameter.
+     * @param packageName String
+     * @return CodeGenerator
+     */
     public CodeGenerator definePackage(String packageName) {
         if (isValid(packageName)) {
             append(PAC);
@@ -43,6 +60,12 @@ public class CodeGenerator {
         return this;
     }
 
+    /**
+     * Add import line. Ex., addImport("java.util.List") will add
+     * "import java.util.List;" line to the class.
+     * @param importPackage String
+     * @return CodeGenerator
+     */
     public CodeGenerator addImport(String importPackage) {
         if (isValid(importPackage)) {
             appendNewLine(IMP);
@@ -52,10 +75,23 @@ public class CodeGenerator {
         return this;
     }
 
+    /**
+     * This method defines class name and encapsulation modifier.
+     * @param encapsulation Encapsulation (PUBLIC/PRIVATE/PACKAGE/PROTECTED)
+     * @param name String (Class name)
+     * @return CodeGenerator
+     */
     public CodeGenerator defineClass(Encapsulation encapsulation, String name) {
         return defineClass(encapsulation, name, null);
     }
 
+    /**
+     * This method defines class name, parent class name and encapsulation modifier.
+     * @param encapsulation Encapsulation (PUBLIC/PRIVATE/PACKAGE/PROTECTED)
+     * @param name String (Class name)
+     * @param extendedPart String (Parent class name)
+     * @return CodeGenerator
+     */
     public CodeGenerator defineClass(Encapsulation encapsulation, String name, String extendedPart) {
         append(LINE_BREAK);
         append(getEncapsulation(encapsulation));
@@ -70,39 +106,71 @@ public class CodeGenerator {
         return this;
     }
 
-    public CodeGenerator addField(Encapsulation encapsulation, String type, String var) {
-        fields.put(var, type);
+    /**
+     * Add simple parameter with specified <i>encapsulation</i>, <i>type</i> and <i>name</i>
+     * @param encapsulation Encapsulation (PUBLIC/PRIVATE/PACKAGE/PROTECTED)
+     * @param type String
+     * @param name String
+     * @return CodeGenerator
+     */
+    public CodeGenerator addField(Encapsulation encapsulation, String type, String name) {
+        fields.put(name, type);
         appendNewLine(getEncapsulation(encapsulation));
         append(type);
         append(SPACE);
-        append(var);
+        append(name);
         endLine();
         return this;
     }
 
-    public CodeGenerator addField(Encapsulation encapsulation, String type, String var, String defaultValue) {
-        fields.put(var, type);
+    /**
+     * Add simple parameter with specified <i>encapsulation</i>, <i>type</i> and <i>name</i>
+     * and default value
+     * @param encapsulation Encapsulation (PUBLIC/PRIVATE/PACKAGE/PROTECTED)
+     * @param type String
+     * @param name String
+     * @param defaultValue String
+     * @return CodeGenerator
+     */
+    public CodeGenerator addField(Encapsulation encapsulation, String type, String name, String defaultValue) {
+        fields.put(name, type);
         appendNewLine(getEncapsulation(encapsulation));
         append(type);
         append(SPACE);
-        append(var);
+        append(name);
         append(" = ");
         append(defaultValue);
         endLine();
         return this;
     }
 
+    /**
+     * Add method.
+     * @param method Method
+     * @return CodeGenerator
+     */
     public CodeGenerator addMethod(Method method) {
         method.build(closingsRequired, builder);
         return this;
     }
 
+    /**
+     * Add custom line to the code.
+     * @param line String
+     * @return CodeGenerator
+     */
     public CodeGenerator addCustomLine(String line) {
         appendNewLine(line);
         append(LINE_BREAK);
         return this;
     }
 
+    /**
+     * Add custom block and open new block.<br>
+     *     Ex., while(true) {
+     * @param line String
+     * @return CodeGenerator
+     */
     public CodeGenerator addCustomCodeAndOpenBlock(String line) {
         appendNewLine(line);
         openBlock();

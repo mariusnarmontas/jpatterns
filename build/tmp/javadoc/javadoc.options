@@ -1,0 +1,12 @@
+-classpath '/home/mn/idea_projects/patterns/build/classes/java/main:/home/mn/idea_projects/patterns/build/resources/main'
+-d '/home/mn/idea_projects/patterns/build/docs/javadoc'
+-doctitle 'patterns 1.0.0 API'
+-notimestamp 
+-quiet 
+-windowtitle 'patterns 1.0.0 API'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/processor/BuilderPatternProcessor.java'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/processor/utils/CodeGenerator.java'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/processor/utils/Encapsulation.java'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/processor/utils/Validator.java'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/processor/utils/Method.java'
+'/home/mn/idea_projects/patterns/src/main/java/info/narmontas/patterns/annotation/BuilderPattern.java'

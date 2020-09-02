@@ -10,6 +10,10 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Validator class provides tools for class inspections before
+ * annotation processing is started.
+ */
 public class Validator {
 
     private final ProcessingEnvironment processingEnv;
@@ -18,6 +22,10 @@ public class Validator {
         this.processingEnv = processingEnv;
     }
 
+    /**
+     * Checks if checked element has No Argument Constructor
+     * @param type TypeElement
+     */
     public void checkForNoArgumentConstructor(TypeElement type) {
         for (ExecutableElement constructor: ElementFilter.constructorsIn(type.getEnclosedElements())) {
             if (constructor.getParameters().isEmpty()) return;
@@ -28,7 +36,8 @@ public class Validator {
     }
 
     /**
-     * Checks if getters and setters are provided.
+     * Checks if element has getters and equal amount of setters for the same parameters.
+     * @param element Element
      */
     public void checkIfElementIsPOJO(Element element) {
         String elementName = element.asType().toString();

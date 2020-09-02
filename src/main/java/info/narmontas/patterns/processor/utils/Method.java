@@ -3,8 +3,9 @@ package info.narmontas.patterns.processor.utils;
 import java.util.*;
 
 /**
- * Method builder.
- * Created Method can be inserted into CodeGenerator instance.
+ * <p>Method class provides tools for method generation.</p>
+ * <p>Result of the tools is Method instance that can be
+ * added to CodeGenerator instance (CodeGenerator.addMethod(Method)).</p>
  */
 public class Method {
     private final String methodName;
