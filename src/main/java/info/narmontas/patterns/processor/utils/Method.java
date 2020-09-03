@@ -20,32 +20,61 @@ public class Method {
         this.methodName = methodName;
     }
 
-
+    /**
+     * Set method encapsulation
+     * @param encapsulation Encapsulation (PUBLIC/PRIVATE/PACKAGE/PROTECTED)
+     * @return Method
+     */
     public Method setEncapsulation(Encapsulation encapsulation) {
         this.encapsulation = encapsulation;
         return this;
     }
 
+    /**
+     * Set method as static
+     * @return Method
+     */
     public Method setStatic() {
         this.isStatic = true;
         return this;
     }
 
+    /**
+     * Set method return type
+     * @param returnType String
+     * @return Method
+     */
     public Method setReturnType(String returnType) {
         this.returnType = returnType;
         return this;
     }
 
+    /**
+     * Add method parameter
+     * @param type String
+     * @param name String
+     * @return Method
+     */
     public Method addParameter(String type, String name) {
         parameters.put(name, type);
         return this;
     }
 
+    /**
+     * Add simple body line
+     * @param line String
+     * @return Method
+     */
     public Method addBodyLine(String line) {
         bodyLines.add(addTabsBefore(localIndent,  line + CodeGenerator.LINE_BREAK));
         return this;
     }
 
+    /**
+     * Add simple body line and start new block
+     * @param line String
+     * @return Method
+     */
     public Method addBodyLineAndOpenBlock(String line) {
         bodyLines.add(addTabsBefore(localIndent,
                 line + CodeGenerator.BLOCK_OPEN + CodeGenerator.LINE_BREAK));
@@ -53,12 +82,20 @@ public class Method {
         return this;
     }
 
+    /**
+     * Open new block
+     * @return Method
+     */
     public Method openBlock() {
         bodyLines.add(CodeGenerator.BLOCK_OPEN + CodeGenerator.LINE_BREAK);
         localIndent++;
         return this;
     }
 
+    /**
+     * Close current block
+     * @return Method
+     */
     public Method closeBlock() {
         if (localIndent == 0)
             return this;
