@@ -1,4 +1,4 @@
-package info.narmontas.patterns.processor.utils;
+package info.narmontas.jpatterns.processor.utils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;

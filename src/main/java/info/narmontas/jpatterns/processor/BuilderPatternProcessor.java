@@ -1,10 +1,10 @@
-package info.narmontas.patterns.processor;
+package info.narmontas.jpatterns.processor;
 
-import info.narmontas.patterns.annotation.BuilderPattern;
-import info.narmontas.patterns.processor.utils.CodeGenerator;
-import info.narmontas.patterns.processor.utils.Encapsulation;
-import info.narmontas.patterns.processor.utils.Method;
-import info.narmontas.patterns.processor.utils.Validator;
+import info.narmontas.jpatterns.annotation.BuilderPattern;
+import info.narmontas.jpatterns.processor.utils.CodeGenerator;
+import info.narmontas.jpatterns.processor.utils.Encapsulation;
+import info.narmontas.jpatterns.processor.utils.Method;
+import info.narmontas.jpatterns.processor.utils.Validator;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  *
  * Creates simple Builder for POJO classes. elements from parent class will be used as well.
  */
-@SupportedAnnotationTypes({"info.narmontas.patterns.annotation.BuilderPattern"})
+@SupportedAnnotationTypes({"info.narmontas.jpatterns.annotation.BuilderPattern"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class BuilderPatternProcessor extends AbstractProcessor {
 

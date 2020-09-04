@@ -1,4 +1,4 @@
-package info.narmontas.patterns.processor.utils;
+package info.narmontas.jpatterns.processor.utils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

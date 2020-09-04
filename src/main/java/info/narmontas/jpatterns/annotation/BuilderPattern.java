@@ -1,4 +1,4 @@
-package info.narmontas.patterns.annotation;
+package info.narmontas.jpatterns.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

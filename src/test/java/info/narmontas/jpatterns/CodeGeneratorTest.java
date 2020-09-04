@@ -1,8 +1,8 @@
-package info.narmontas.patterns;
+package info.narmontas.jpatterns;
 
-import info.narmontas.patterns.processor.utils.CodeGenerator;
-import info.narmontas.patterns.processor.utils.Encapsulation;
-import info.narmontas.patterns.processor.utils.Method;
+import info.narmontas.jpatterns.processor.utils.CodeGenerator;
+import info.narmontas.jpatterns.processor.utils.Encapsulation;
+import info.narmontas.jpatterns.processor.utils.Method;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

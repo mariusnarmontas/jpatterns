@@ -22,13 +22,13 @@ dependencies {
 }
 ```
 
-Then annotate your POJO class with `@BuilderPattern` annotation from `info.narmontas.patterns.annotation` package:
+Then annotate your POJO class with `@BuilderPattern` annotation from `info.narmontas.jpatterns.annotation` package:
 ```java
 package org.example.pojo;
 
 import java.util.List;
 import java.util.Set;
-import info.narmontas.patterns.annotation.BuilderPattern;
+import info.narmontas.jpatterns.annotation.BuilderPattern;
 
 @BuilderPattern
 public class Person {
