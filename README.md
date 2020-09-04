@@ -1,4 +1,4 @@
-# Patterns (Annotation Processing)
+# JPatterns (Annotation Processing)
 This plugin generates `Builder` source files during compilation. Builders can be generated for POJO class only.
 
 The plugin is created for myself and is used with JPA Entities.
@@ -9,7 +9,7 @@ POJOBuilder class will be created.
 
 ## Download
 
-`Patterns` jar file can be downloaded [here](http://narmontas.info/java_projects/patterns/patterns-0.1.0.jar).
+`JPatterns` jar file can be downloaded [here](http://narmontas.info/java_projects/patterns/jpatterns-0.1.0.jar).
 
 ## Usage example:
 
@@ -17,8 +17,8 @@ Jar file should be added as a dependency (Gradle example):
 ```groovy
 dependencies {
     // ...
-    implementation files('static_dependencies/patterns-0.1.0.jar')
-    annotationProcessor files('static_dependencies/patterns-0.1.0.jar')
+    implementation files('static_dependencies/jpatterns-0.1.0.jar')
+    annotationProcessor files('static_dependencies/jpatterns-0.1.0.jar')
 }
 ```
 
@@ -113,7 +113,7 @@ please note, default values for List, String and Set types are created. At the m
 For other reference types default values will be `null`. For primitive types no default values are assigned.
 
 Builder usage:
-```java
+```
 // ...
 Person person = PersonBuilder.create()
     .setId(1L)
