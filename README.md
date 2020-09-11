@@ -5,7 +5,7 @@ The plugin is created for my projects and is used with JPA Entities.
 *At the moment only Builder pattern is available* but in the future I hope to add more software design patterns.
 
 It is simple to use: just annotate your POJO with `@BuilderPattern` annotation and after annotations are processed simple 
-POJOBuilder class will be created.
+POJOBuilder class will be generated.
 
 ## Download
 
