@@ -1,6 +1,7 @@
 package info.narmontas.jpatterns.processor;
 
 import info.narmontas.jpatterns.annotation.BuilderPattern;
+import info.narmontas.jpatterns.annotation.BuilderPatternIgnore;
 import info.narmontas.jpatterns.processor.utils.CodeGenerator;
 import info.narmontas.jpatterns.processor.utils.Encapsulation;
 import info.narmontas.jpatterns.processor.utils.Method;
@@ -284,7 +285,8 @@ public class BuilderPatternProcessor extends AbstractProcessor {
     private boolean getterPredicate(Element element) {
         return  element.getKind() == ElementKind.METHOD
                 && element.getSimpleName().toString().startsWith("get")
-                && !element.getSimpleName().toString().startsWith("getClass");
+                && !element.getSimpleName().toString().startsWith("getClass")
+                && (element.getAnnotation(BuilderPatternIgnore.class) == null);
     }
 
     private boolean collectionPredicate(ExecutableElement element) {
