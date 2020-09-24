@@ -1,11 +1,11 @@
 # JPatterns (Annotation Processing)
 This plugin generates `Builder` source files during compilation. Builders can be generated for POJO class only.
 
-The plugin is created for myself and is used with JPA Entities.
+The plugin is created for my projects and is used with JPA Entities.
 *At the moment only Builder pattern is available* but in the future I hope to add more software design patterns.
 
 It is simple to use: just annotate your POJO with `@BuilderPattern` annotation and after annotations are processed simple 
-POJOBuilder class will be created.
+POJOBuilder class will be generated.
 
 ## Download
 
@@ -52,7 +52,7 @@ public class Person {
 }
 ```
 
-For the above stated POJO class Builder will be generated:
+For the above stated POJO class Builder will be generated as follows:
 ```java
 package org.example.pojo;
 
