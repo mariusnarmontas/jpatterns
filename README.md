@@ -112,6 +112,8 @@ please note, default values for List, String and Set types are created. At the m
 
 For other reference types default values will be `null`. For primitive types no default values are assigned.
 
+IMPORTANT: _If some fields should not be included to builder, you should annotate their getter methods with `@BuilderPatternIgnore` annotation._
+
 Builder usage:
 ```
 // ...
