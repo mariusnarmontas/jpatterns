@@ -1,7 +1,6 @@
 # JPatterns (Annotation Processing)
 This plugin generates `Builder` source files during compilation. Builders can be generated for POJO class only.
 
-The plugin is created for my projects and is used with JPA Entities.
 *At the moment only Builder pattern is available* but in the future I hope to add more software design patterns.
 
 It is simple to use: just annotate your POJO with `@BuilderPattern` annotation and after annotations are processed simple 
@@ -112,7 +111,7 @@ please note, default values for List, String and Set types are created. At the m
 
 For other reference types default values will be `null`. For primitive types no default values are assigned.
 
-IMPORTANT: _If some fields should not be included to builder, you should annotate their getter methods with `@BuilderPatternIgnore` annotation._
+IMPORTANT: _If some fields should not be included to builder, you have to annotate their getter methods with `@BuilderPatternIgnore` annotation._
 
 Builder usage:
 ```
