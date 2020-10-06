@@ -204,8 +204,23 @@ public class BuilderPatternProcessor extends AbstractProcessor {
     }
 
     private String getFieldName(String accessorName) {
-        return accessorName.substring(3, 4).toLowerCase() +
-                accessorName.substring(4);
+        if (accessorName.startsWith("get") || accessorName.startsWith("has")) {
+            return accessorName.substring(3, 4).toLowerCase() +
+                    accessorName.substring(4);
+        }
+        if (accessorName.startsWith("is")) {
+            return accessorName.substring(2, 3).toLowerCase() +
+                    accessorName.substring(3);
+        }
+        return accessorName;
+    }
+
+    private String getSubstring(String name) {
+        if (name.startsWith("get") || name.startsWith("has"))
+            return name.substring(3);
+        if (name.startsWith("is"))
+            return name.substring(2);
+        return name;
     }
 
     private String getCollectionDefaultValue(String collectionType) {
@@ -268,7 +283,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
 
     private void setSetters(HashMap<String, String> methods) {
         methods.forEach((name, type) -> {
-            Method method = new Method("set" + name.substring(3))
+            Method method = new Method("set" + getSubstring(name))
                     .setEncapsulation(Encapsulation.PUBLIC)
                     .setReturnType(fullName)
                     .addParameter(type, "obj")
@@ -284,8 +299,11 @@ public class BuilderPatternProcessor extends AbstractProcessor {
 
     private boolean getterPredicate(Element element) {
         return  element.getKind() == ElementKind.METHOD
-                && element.getSimpleName().toString().startsWith("get")
+                && (element.getSimpleName().toString().startsWith("get")
+                    || element.getSimpleName().toString().startsWith("has")
+                    || element.getSimpleName().toString().startsWith("is"))
                 && !element.getSimpleName().toString().startsWith("getClass")
+                && !element.getSimpleName().toString().startsWith("hashCode")
                 && (element.getAnnotation(BuilderPatternIgnore.class) == null);
     }
 
@@ -308,7 +326,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
                 .addBodyLine(initialClassFullName + " obj = new " + initialClassFullName + "();");
 
         methods.forEach((name, type) -> {
-            build.addBodyLine("obj.set" + name.substring(3) + "(" + getFieldName(name) + ");");
+            build.addBodyLine("obj.set" + getSubstring(name) + "(" + getFieldName(name) + ");");
         });
 
         build.addBodyLine("return obj;");
