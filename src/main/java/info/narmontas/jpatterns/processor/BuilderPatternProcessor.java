@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 public class BuilderPatternProcessor extends AbstractProcessor {
 
     private Elements elementUtils;
+    private Validator validator;
 
     public final String listType = "java.util.List";
     public final String setType = "java.util.Set";
@@ -75,7 +76,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
         Set<? extends Element> builderTemplateAnnotated = roundEnvironment
                 .getElementsAnnotatedWith(BuilderPattern.class);
 
-        Validator validator = new Validator(processingEnv);
+        validator = new Validator(processingEnv);
 
         for (TypeElement type: ElementFilter.typesIn(builderTemplateAnnotated)) {
             validator.checkForNoArgumentConstructor(type);
@@ -204,23 +205,16 @@ public class BuilderPatternProcessor extends AbstractProcessor {
     }
 
     private String getFieldName(String accessorName) {
-        if (accessorName.startsWith("get") || accessorName.startsWith("has")) {
+        if (validator.getterOrSetterTypePredicate(accessorName, "get")
+                || validator.getterOrSetterTypePredicate(accessorName, "has")) {
             return accessorName.substring(3, 4).toLowerCase() +
                     accessorName.substring(4);
         }
-        if (accessorName.startsWith("is")) {
+        if (validator.getterOrSetterTypePredicate(accessorName, "is")) {
             return accessorName.substring(2, 3).toLowerCase() +
                     accessorName.substring(3);
         }
         return accessorName;
-    }
-
-    private String getSubstring(String name) {
-        if (name.startsWith("get") || name.startsWith("has"))
-            return name.substring(3);
-        if (name.startsWith("is"))
-            return name.substring(2);
-        return name;
     }
 
     private String getCollectionDefaultValue(String collectionType) {
@@ -264,7 +258,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
 
     private void setCollectionAdders() {
         collections.forEach((name, type) -> {
-            Method method = new Method("add" + name.substring(3, name.length() -1))
+            Method method = new Method("add" + validator.getSubstring(name))
                     .setEncapsulation(Encapsulation.PUBLIC)
                     .setReturnType(fullName)
                     .addParameter(extractGenericType(type), "item")
@@ -283,7 +277,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
 
     private void setSetters(HashMap<String, String> methods) {
         methods.forEach((name, type) -> {
-            Method method = new Method("set" + getSubstring(name))
+            Method method = new Method("set" + validator.getSubstring(name))
                     .setEncapsulation(Encapsulation.PUBLIC)
                     .setReturnType(fullName)
                     .addParameter(type, "obj")
@@ -299,11 +293,10 @@ public class BuilderPatternProcessor extends AbstractProcessor {
 
     private boolean getterPredicate(Element element) {
         return  element.getKind() == ElementKind.METHOD
-                && (element.getSimpleName().toString().startsWith("get")
-                    || element.getSimpleName().toString().startsWith("has")
-                    || element.getSimpleName().toString().startsWith("is"))
+                && (validator.getterOrSetterTypePredicate(element.getSimpleName().toString(), "get")
+                    || validator.getterOrSetterTypePredicate(element.getSimpleName().toString(), "has")
+                    || validator.getterOrSetterTypePredicate(element.getSimpleName().toString(), "is"))
                 && !element.getSimpleName().toString().startsWith("getClass")
-                && !element.getSimpleName().toString().startsWith("hashCode")
                 && (element.getAnnotation(BuilderPatternIgnore.class) == null);
     }
 
@@ -326,7 +319,7 @@ public class BuilderPatternProcessor extends AbstractProcessor {
                 .addBodyLine(initialClassFullName + " obj = new " + initialClassFullName + "();");
 
         methods.forEach((name, type) -> {
-            build.addBodyLine("obj.set" + getSubstring(name) + "(" + getFieldName(name) + ");");
+            build.addBodyLine("obj.set" + validator.getSubstring(name) + "(" + getFieldName(name) + ");");
         });
 
         build.addBodyLine("return obj;");

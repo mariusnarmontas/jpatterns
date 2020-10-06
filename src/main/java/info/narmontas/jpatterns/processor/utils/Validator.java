@@ -36,6 +36,19 @@ public class Validator {
     }
 
     /**
+     * Checks if provided name begins with provided type
+     * plus upper case letter.
+     * @param name String name, ex., getName
+     * @param type String getter type ex., get
+     * @return boolean
+     */
+    public boolean getterOrSetterTypePredicate(String name, String type) {
+        return name.startsWith(type) &&
+                name.substring(type.length(), type.length() + 1)
+                        .matches("[A-Z]");
+    }
+
+    /**
      * Checks if element has getters and equal amount of setters for the same parameters.
      * @param element Element
      */
@@ -47,14 +60,16 @@ public class Validator {
                 processingEnv.getElementUtils().getAllMembers(elementType)
                 .stream()
                 .filter(elem -> elem.getKind() == ElementKind.METHOD &&
-                        elem.getSimpleName().toString().startsWith("set"))
+                        getterOrSetterTypePredicate(elem.getSimpleName().toString(), "set"))
                 .collect(Collectors.toSet());
 
         Set<? extends Element> getters =
                 processingEnv.getElementUtils().getAllMembers(elementType)
                 .stream()
                 .filter(elem -> elem.getKind() == ElementKind.METHOD &&
-                        elem.getSimpleName().toString().startsWith("get") &&
+                        (getterOrSetterTypePredicate(elem.getSimpleName().toString(), "get")
+                        || getterOrSetterTypePredicate(elem.getSimpleName().toString(), "has")
+                        || getterOrSetterTypePredicate(elem.getSimpleName().toString(), "is")) &&
                         !elem.getSimpleName().toString().startsWith("getClass"))
                 .collect(Collectors.toSet());
 
@@ -68,7 +83,7 @@ public class Validator {
         long samples = getters.stream()
                 .filter(getter -> setters.stream().filter(setter ->
                         setter.getSimpleName().toString().substring(3)
-                                .equals(getter.getSimpleName().toString().substring(3)) &&
+                                .equals(getSubstring(getter.getSimpleName().toString())) &&
                                 ((ExecutableElement) setter).getParameters().size() == 1
                     ).count() == 1)
                 .count();
@@ -78,5 +93,14 @@ public class Validator {
                     Diagnostic.Kind.ERROR,
                     "Class " + element.toString() + " is not POJO.");
         }
+    }
+
+    public String getSubstring(String name) {
+        if (getterOrSetterTypePredicate(name, "get")
+                || getterOrSetterTypePredicate(name, "has"))
+            return name.substring(3);
+        if (getterOrSetterTypePredicate(name, "is"))
+            return name.substring(2);
+        return name;
     }
 }
